@@ -20,6 +20,26 @@ function CreateSquares()
         ChildDiv.classList.add("ChildDiv");
         MainDiv.appendChild(ChildDiv);
     }
+}
+
+function FillUnClickedArray()
+{
+    UnClickedArray = ( Array.from(MainDiv.childNodes));
+}
+//this retuns a new array , Unclicked Array stores reference to brand new Array of 64 squares, we are not adding new values to  previous UnclickedArray data
+
+
+function FillUnClickedNumsArray()
+{
+    
+    UnClickedArray.forEach(element => {
+        UnClickedNumsArray.push(Number(element.textContent));
+    });
+}
+
+function InitalGAMESetup()
+{
+    CreateSquares();
     FillUnClickedArray();
     console.log("A");
   console.log(UnClickedArray);
@@ -28,20 +48,7 @@ function CreateSquares()
   console.log(UnClickedNumsArray);
 }
 
-function FillUnClickedArray()
-{
-    UnClickedArray = ( Array.from(MainDiv.childNodes));
-}
-
-
-function FillUnClickedNumsArray()
-{
-    UnClickedArray.forEach(element => {
-        UnClickedNumsArray.push(Number(element.textContent));
-    });
-}
-
-CreateSquares();
+InitalGAMESetup();
 
 
 body.addEventListener("click", ClickEventforMainDiv);
@@ -51,16 +58,20 @@ function ClickEventForPlayAgainBtn(event)
 {
     if(event.target.id === "againId")
     {
-    //    I can also Reset color and do FillUnclickedArray to minmize computinfg resources in Creating and Restyling all squares
-    //    FillUnClickedArray();
-        CreateSquares();
+        ResetAllSquareColors();
+        FillUnClickedArray();
+        UnClickedNumsArray = []; //emptify all the values
+        FillUnClickedNumsArray();
         ScoreNum = 0;
         score.textContent = ScoreNum;
        RemovePlayAgainBtn();
 
     } 
 }
-
+// function ResetAllSquareColors()
+// {
+//  $("mainDiv").
+// }
 function ClickEventforMainDiv(event)
 {
     let selectedDiv = event.target
