@@ -64,14 +64,16 @@ function ClickEventForPlayAgainBtn(event)
         FillUnClickedNumsArray();
         ScoreNum = 0;
         score.textContent = ScoreNum;
-       RemovePlayAgainBtn();
+        RemovePlayAgainBtn();
+        body.addEventListener("click", ClickEventforMainDiv);
 
     } 
 }
-// function ResetAllSquareColors()
-// {
-//  $("mainDiv").
-// }
+function ResetAllSquareColors()
+{
+ $("#mainDiv>div").removeClass(["ClickedChildDiv", "DeadSquare"])
+
+}
 function ClickEventforMainDiv(event)
 {
     let selectedDiv = event.target
@@ -146,9 +148,10 @@ function CheckForMatch(ReversedText,selectedDiv)
 
 function AddBgColorToMatchedDivs(selectedDiv, foundIndex)
 {
-    selectedDiv.style.backgroundColor = "red";
-   UnClickedArray[foundIndex].style.backgroundColor = "red";
+    selectedDiv.classList.add("DeadSquare");
+   UnClickedArray[foundIndex].classList.add("DeadSquare");
 }
+
 
 function AddPlayAgainBtn()
 {
