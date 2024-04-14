@@ -1,4 +1,3 @@
-
 const MainDiv = document.querySelector("#mainDiv");
 const AskButton = document.querySelector("#AskBtn");
 const body = document.querySelector("body");
@@ -8,7 +7,18 @@ score.textContent = ScoreNum;
 var UnClickedArray = [];
 var ClickedArray = [];
 var UnClickedNumsArray = [];
+var TextInsideAllSquaresArray = [];
+var SureCollisionNumsArray = [24, 26, 28, 42 ,46, 48, 62, 64, 68, 82,84,86];
 
+InitalGAMESetup();
+
+function InitalGAMESetup()
+{
+    CreateSquares();
+    FillUnClickedArray();
+    FillUnClickedNumsArray();
+    RetriveTextFromAllSquares();
+}
 
 function CreateSquares()
 {
@@ -28,28 +38,19 @@ function FillUnClickedArray()
 }
 //this retuns a new array , Unclicked Array stores reference to brand new Array of 64 squares, we are not adding new values to  previous UnclickedArray data
 
-
 function FillUnClickedNumsArray()
 {
-    
     UnClickedArray.forEach(element => {
         UnClickedNumsArray.push(Number(element.textContent));
     });
 }
 
-function InitalGAMESetup()
+function RetriveTextFromAllSquares()
 {
-    CreateSquares();
-    FillUnClickedArray();
-//     console.log("A");
-//   console.log(UnClickedArray);
-  FillUnClickedNumsArray();
-//   console.log("B");
-//   console.log(UnClickedNumsArray);
+    UnClickedArray.forEach(element => {
+        TextInsideAllSquaresArray.push((element.textContent));
+    });
 }
-
-InitalGAMESetup();
-
 
 body.addEventListener("click", ClickEventforMainDiv);
 body.addEventListener("click",  ClickEventForPlayAgainBtn);
@@ -58,10 +59,11 @@ function ClickEventForPlayAgainBtn(event)
 {
     if(event.target.id === "againId")
     {
-       DeleteAllSquares();
-       UnClickedArray = [];
-       UnClickedNumsArray = [];
-       InitalGAMESetup();
+        DeleteAllSquares();
+        UnClickedArray = [];
+        UnClickedNumsArray = [];
+        TextInsideAllSquaresArray = [];
+        InitalGAMESetup();
         ScoreNum = 0;
         score.textContent = ScoreNum;
         RemovePlayAgainBtn();
@@ -80,26 +82,29 @@ function DeleteAllSquares()
 function ClickEventforMainDiv(event)
 {
     let selectedDiv = event.target
-    console.log(selectedDiv);
-    console.log(UnClickedArray);
+    // console.log(selectedDiv);
+    // console.log(UnClickedArray);
     if(selectedDiv.parentNode.id ==="mainDiv")
     {
-        // restricition for Double Clicking(Reversing)
-        if(UnClickedArray.includes(selectedDiv))
-        {
-            let text = selectedDiv.textContent;
-            let ReversedText = reveseString(text);
-            event.target.textContent = ReversedText;
-            event.target.classList.add("ClickedChildDiv");
-            // add div to ClickedArray and Remove from Unclicked One
-            RemovefromUnclickedArray(selectedDiv);
-            RemovefromUnclickedNumsArray(text);
-            CheckForMatch(ReversedText,selectedDiv);
-        }
+                if(UnClickedArray.includes(selectedDiv))
+                {
+                    let text = selectedDiv.textContent;
+                    let ReversedText = reveseString(text);
+                    event.target.textContent = ReversedText;
+                    event.target.classList.add("ClickedChildDiv");
+                    // add div to ClickedArray and Remove from Unclicked One
+                    RemovefromUnclickedArray(selectedDiv);
+                    RemovefromUnclickedNumsArray(text)
+                    CheckForMatch(ReversedText,selectedDiv);
+                    GameTriumphOrNot();
+                }
+            }
+        
     }
 
-}
 
+
+ 
 function reveseString(str)
 {
     let splittext = str.split("");
@@ -111,10 +116,7 @@ function reveseString(str)
 function  RemovefromUnclickedArray(SelectedDiv)
 {
     const index = UnClickedArray.indexOf(SelectedDiv);
-  const splicedDiv =   UnClickedArray.splice(index, 1);
-//   console.log(splicedDiv);
-//   console.log(" UnclicedArray After");
-//   console.log(UnClickedArray);
+    const splicedDiv =   UnClickedArray.splice(index, 1);
 }
 
 function RemovefromUnclickedNumsArray(TextBeforeReverse)
@@ -122,10 +124,7 @@ function RemovefromUnclickedNumsArray(TextBeforeReverse)
     
     let Num = Number(TextBeforeReverse)
     const index2 = UnClickedNumsArray.indexOf(Num);
-    // console.log(index2);
     UnClickedNumsArray.splice(index2,1);
-    // console.log("After");
-    // console.log(UnClickedNumsArray);
 }
 
 // Match Occurs if text Content equals
@@ -133,26 +132,59 @@ function CheckForMatch(ReversedText,selectedDiv)
 {
     let ReversedNum = (Number(ReversedText,selectedDiv));
     let foundIndex = (UnClickedNumsArray.findIndex((num)=> num===ReversedNum));
-    // console.log(foundIndex);
     if(foundIndex!==-1)
-    {
-        alert("Game finished");
-        AddBgColorToMatchedDivs(selectedDiv, foundIndex);
-        AddPlayAgainBtn();
-        FreezeClickonSquares();
-    }
+        {
+            alert("Game finished");
+            AddBgColorToMatchedDivs(selectedDiv, foundIndex);
+            AddPlayAgainBtn();
+            FreezeClickonSquares();
+        }
     else{
         ScoreNum++;
         score.textContent = ScoreNum;
     }  
-    
+ 
 }
 
+function GameTriumphOrNot()
+{
+    if(ArraysEqualityCheck(SureCollisionNumsArray, UnClickedNumsArray)===true) //end the game 
+        {
+            alert("Level Completed");
+            UncoverSureCollisionNums();
+            AddPlayAgainBtn();
+            FreezeClickonSquares();
+        }
+}
+
+
+function ArraysEqualityCheck(arr1, arr2)
+{
+    // order(Index) doesnt matter for us
+    if(arr1.length===arr2.length)
+    {
+        return arr1.every((value1 =>
+            {
+              return arr2.includes(value1);
+        }))
+    }
+    else{
+        return false;
+    }
+}
+
+function UncoverSureCollisionNums()
+{
+    UnClickedArray.forEach((SureCollideDiv)=>
+    {
+        SureCollideDiv.classList.add("SureCollideDiv");
+    })
+}
 
 function AddBgColorToMatchedDivs(selectedDiv, foundIndex)
 {
     selectedDiv.classList.add("DeadSquare");
-   UnClickedArray[foundIndex].classList.add("DeadSquare");
+    UnClickedArray[foundIndex].classList.add("DeadSquare");
 }
 
 
@@ -175,32 +207,4 @@ function RemovePlayAgainBtn()
     document.getElementById("againId").remove();
 }
 
-
-
-// function OhWhatNumberWasIt(selectedDiv)
-// {
-//     console.log("Yo");
-//     selectedDiv.addEventListener("click", function FlipText()
-//     {
-//         selectedDiv.style.backgroundColor = "brown";
-//         let text = selectedDiv.textContent;
-//         let ReversedText = reveseString(text);
-//         selectedDiv.textContent = reveseString();
-//     })
-// }
-
-
-
-        
-        
-        
-        
-        function DisableUnclickedArray()
-{
-    
-}
-function ResetGame()
-{
-
-}
 
