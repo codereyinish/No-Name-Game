@@ -41,11 +41,11 @@ function InitalGAMESetup()
 {
     CreateSquares();
     FillUnClickedArray();
-    console.log("A");
-  console.log(UnClickedArray);
+//     console.log("A");
+//   console.log(UnClickedArray);
   FillUnClickedNumsArray();
-  console.log("B");
-  console.log(UnClickedNumsArray);
+//   console.log("B");
+//   console.log(UnClickedNumsArray);
 }
 
 InitalGAMESetup();
@@ -58,22 +58,25 @@ function ClickEventForPlayAgainBtn(event)
 {
     if(event.target.id === "againId")
     {
-        ResetAllSquareColors();
-        FillUnClickedArray();
-        UnClickedNumsArray = []; //emptify all the values
-        FillUnClickedNumsArray();
+       DeleteAllSquares();
+       UnClickedArray = [];
+       UnClickedNumsArray = [];
+       InitalGAMESetup();
         ScoreNum = 0;
         score.textContent = ScoreNum;
         RemovePlayAgainBtn();
         body.addEventListener("click", ClickEventforMainDiv);
-
     } 
 }
-function ResetAllSquareColors()
-{
- $("#mainDiv>div").removeClass(["ClickedChildDiv", "DeadSquare"])
 
+function DeleteAllSquares()
+{
+    while(MainDiv.hasChildNodes())
+       {
+            MainDiv.firstChild.remove();
+        }
 }
+
 function ClickEventforMainDiv(event)
 {
     let selectedDiv = event.target
@@ -187,13 +190,7 @@ function RemovePlayAgainBtn()
 // }
 
 
-// function DeleteSquares()
-// {
-    //    while(MainDiv.hasChildNodes())
-    //    {
-        //     MainDiv.firstChild.remove();
-        //    }
-        // }
+
         
         
         
