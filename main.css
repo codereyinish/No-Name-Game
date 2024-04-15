@@ -60,7 +60,7 @@ body{
     cursor: pointer;
     background-color: #2df018;
 }
-#ScoreBoard
+#ScoreBoard, #Remaining
 {
     width: 120px;
     height: 120px;
@@ -73,7 +73,11 @@ body{
     align-items: center;
     gap: 20px;
 }
-#score
+#Remaining
+{
+    background-color: #0fe0a5;
+}
+#score, #remaining
 {
   font: 30px bolder;
 }
