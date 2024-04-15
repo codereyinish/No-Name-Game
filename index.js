@@ -2,13 +2,17 @@ const MainDiv = document.querySelector("#mainDiv");
 const AskButton = document.querySelector("#AskBtn");
 const body = document.querySelector("body");
 const score = document.querySelector("#score");
+const remaining = document.querySelector("#remaining");
 let ScoreNum = 0;
 score.textContent = ScoreNum;
+let n = 64;
 var UnClickedArray = [];
 var ClickedArray = [];
 var UnClickedNumsArray = [];
-var TextInsideAllSquaresArray = [];
-var SureCollisionNumsArray = [24, 26, 28, 42 ,46, 48, 62, 64, 68, 82,84,86];
+let SureCollisionNumsArray = [24, 26, 28, 42 ,46, 48, 62, 64, 68, 82,84,86];
+let RemainingUnclicks = n - (SureCollisionNumsArray.length);// we cant use UnclickedNums here until squares are created
+remaining.textContent = RemainingUnclicks;
+
 
 InitalGAMESetup();
 
@@ -17,12 +21,11 @@ function InitalGAMESetup()
     CreateSquares();
     FillUnClickedArray();
     FillUnClickedNumsArray();
-    RetriveTextFromAllSquares();
 }
 
 function CreateSquares()
 {
-    for(i = 0; i<64; i++)
+    for(i = 0; i<n; i++)
     {
         const ChildDiv = document.createElement("div");
         ChildDiv.id = "divs" + (i+1);
@@ -45,12 +48,6 @@ function FillUnClickedNumsArray()
     });
 }
 
-function RetriveTextFromAllSquares()
-{
-    UnClickedArray.forEach(element => {
-        TextInsideAllSquaresArray.push((element.textContent));
-    });
-}
 
 body.addEventListener("click", ClickEventforMainDiv);
 body.addEventListener("click",  ClickEventForPlayAgainBtn);
@@ -62,10 +59,11 @@ function ClickEventForPlayAgainBtn(event)
         DeleteAllSquares();
         UnClickedArray = [];
         UnClickedNumsArray = [];
-        TextInsideAllSquaresArray = [];
         InitalGAMESetup();
         ScoreNum = 0;
         score.textContent = ScoreNum;
+        RemainingUnclicks = n - (SureCollisionNumsArray.length);
+        remaining.textContent = RemainingUnclicks;
         RemovePlayAgainBtn();
         body.addEventListener("click", ClickEventforMainDiv);
     } 
@@ -79,11 +77,16 @@ function DeleteAllSquares()
         }
 }
 
+function RemovePlayAgainBtn()
+{
+    document.getElementById("againId").remove();
+}
+
+
 function ClickEventforMainDiv(event)
 {
     let selectedDiv = event.target
-    // console.log(selectedDiv);
-    // console.log(UnClickedArray);
+
     if(selectedDiv.parentNode.id ==="mainDiv")
     {
                 if(UnClickedArray.includes(selectedDiv))
@@ -96,15 +99,19 @@ function ClickEventforMainDiv(event)
                     RemovefromUnclickedArray(selectedDiv);
                     RemovefromUnclickedNumsArray(text)
                     CheckForMatch(ReversedText,selectedDiv);
-                    GameTriumphOrNot();
+                    if(RemainingUnclicks===0)
+                    {
+                        alert("Level Completed");
+                        UncoverSureCollisionNums();
+                        AddPlayAgainBtn();
+                        FreezeClickonSquares();
+                    }
                 }
             }
         
     }
 
 
-
- 
 function reveseString(str)
 {
     let splittext = str.split("");
@@ -116,7 +123,7 @@ function reveseString(str)
 function  RemovefromUnclickedArray(SelectedDiv)
 {
     const index = UnClickedArray.indexOf(SelectedDiv);
-    const splicedDiv =   UnClickedArray.splice(index, 1);
+    UnClickedArray.splice(index, 1);
 }
 
 function RemovefromUnclickedNumsArray(TextBeforeReverse)
@@ -142,36 +149,13 @@ function CheckForMatch(ReversedText,selectedDiv)
     else{
         ScoreNum++;
         score.textContent = ScoreNum;
+        RemainingUnclicks--;
+        remaining.textContent = RemainingUnclicks;
+
     }  
  
 }
 
-function GameTriumphOrNot()
-{
-    if(ArraysEqualityCheck(SureCollisionNumsArray, UnClickedNumsArray)===true) //end the game 
-        {
-            alert("Level Completed");
-            UncoverSureCollisionNums();
-            AddPlayAgainBtn();
-            FreezeClickonSquares();
-        }
-}
-
-
-function ArraysEqualityCheck(arr1, arr2)
-{
-    // order(Index) doesnt matter for us
-    if(arr1.length===arr2.length)
-    {
-        return arr1.every((value1 =>
-            {
-              return arr2.includes(value1);
-        }))
-    }
-    else{
-        return false;
-    }
-}
 
 function UncoverSureCollisionNums()
 {
@@ -202,9 +186,5 @@ function FreezeClickonSquares()
     body.removeEventListener("click", ClickEventforMainDiv);
 }
 
-function RemovePlayAgainBtn()
-{
-    document.getElementById("againId").remove();
-}
 
 
