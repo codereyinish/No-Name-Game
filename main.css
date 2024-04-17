@@ -59,8 +59,8 @@ body{
 #mainDiv>div:hover{
     cursor: pointer;
 }
-.ChildDiv:hover{
-    background-color: #2df018;
+.hover:hover{
+    background-color: #38de26;
 }
 #ScoreBoard, #Remaining
 {
@@ -149,7 +149,7 @@ button:hover{
 }
 #startGameBtn{
     background-color: #0918f2;
-    margin-bottom: 40px;
+    margin-bottom: 10px;
 }
 #startGameBtn:hover{
     border: 2px solid #fffafa;
