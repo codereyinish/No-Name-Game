@@ -25,7 +25,7 @@ body{
     align-items: center;
     padding: 1%;
 }
-.PlayAgain
+.PlayAgain, #startGameBtn
 {
     cursor: pointer;
     align-self: center;
@@ -38,14 +38,13 @@ body{
     border-radius: 9px;
     color: whitesmoke;
 }
-.ChildDiv, .ClickedChildDiv
-{
+.ChildDiv, .ClickedChildDiv{
     /* width: 184px;
     height: 184px; */
     width: 94px;
     height: 91px;
-    background-color: rgb(191, 9, 236);
-    border: 2px solid rgb(0, 0, 0);
+    background-color: rgb(11, 10, 10);
+    border: 2px solid rgb(244, 240, 240);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -53,11 +52,14 @@ body{
     color: rgb(242, 246, 246);
 }
 .ClickedChildDiv{
-    border: 2px solid rgb(11, 11, 11);
+    border: 2px solid rgb(247, 242, 242);
     background-color: rgb(87, 1, 136);
 }
-.ChildDiv:hover{
+
+#mainDiv>div:hover{
     cursor: pointer;
+}
+.ChildDiv:hover{
     background-color: #2df018;
 }
 #ScoreBoard, #Remaining
@@ -70,6 +72,7 @@ body{
     border-radius: 5px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     gap: 20px;
 }
@@ -77,6 +80,10 @@ body{
 {
     background-color: #0fe0a5;
 }
+#Remaining>span{
+    width: min-content;
+}
+
 #score, #remaining
 {
   font: 30px bolder;
@@ -90,4 +97,61 @@ body{
     background-color: rgb(251, 116, 5);
 }
 
+.GameInstruction
+{
+    width: 45%;
+    height: 55%;
+    background-color: #060605;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 5px;
+}
+h1{
+    margin-bottom: 10px;
+    font: 28px bolder;
+    color: whitesmoke;
+}
+#Wrapper>p{
+    color: #1ac9fa;
+    font: 20px bold;
+    margin-bottom: 20px;
+}
+ul{
+    margin-bottom: 12px;
+    margin-left: 10px;
+}
+ul>li{
+    color: rgb(167, 241, 28);
+    font: 17px bold;
+    list-style-type: none;
+    margin-bottom: 8px;
+}
+
+#lasttext
+{
+    color: white;
+    font: 18px;
+    margin-top: 10px;
+}
+#Wrapper
+{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 5px;
+}
+
+button:hover{
+    cursor: pointer;
+}
+#startGameBtn{
+    background-color: #0918f2;
+    margin-bottom: 40px;
+}
+#startGameBtn:hover{
+    border: 2px solid #fffafa;
+}
 
