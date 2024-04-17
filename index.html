@@ -3,20 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Game Instructions</title>
+    <script src="instruction.js" defer></script>
     <link rel="stylesheet" href="main.css">
-    <script src="node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="index.js" defer></script>
 </head>
 <body>
-    <div id="ScoreBoard">
-        <span>Score:</span>
-        <div id="score"></div>
+<div id="instructionPage" class="GameInstruction">
+    <div id="Wrapper">
+    <h1>Welcome to No_NAME_GAME </h1>
+    <p>Here is how to play this Game:</p>
+    <ul>
+        <li>1. Click the "Start Game" button below to begin.</li>
+        <li>2. Navigate the grid of squares by clicking on them.</li>
+        <li>3. Whenever you click on a tile, the number on it reverses.</li>
+        <li>4. Your goal is to uncover all the remaining tiles in a way such that the reversed number on a flipped tile shouldn't already be present among the unclicked tiles.</li>
+        <li>6. Complete the game to win.</li>
+        <li>7. Click "Play Again" to restart the game.
+    </ul>
+    <p  id="lasttext">
+        Enjoy playing [Game Name]! Have fun and aim for the highest score!
+    </p>
     </div>
-    <div id="mainDiv"></div>
-    <div id="Remaining">
-        <span>Remaining:</span>
-        <div id="remaining">2</div>
-    </div>
+        <button id="startGameBtn">Start Game</button>
+</div>
 </body>
 </html>
