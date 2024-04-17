@@ -28,7 +28,7 @@ function CreateSquares()
         const ChildDiv = document.createElement("div");
         ChildDiv.id = "divs" + (i+1);
         ChildDiv.textContent = i+i;
-        ChildDiv.classList.add("ChildDiv");
+        ChildDiv.className = "ChildDiv hover"
         MainDiv.appendChild(ChildDiv);
     }
 }
@@ -138,6 +138,11 @@ function CheckForMatch(ReversedText,selectedDiv)
             AddBgColorToMatchedDivs(selectedDiv, foundIndex);
             AddPlayAgainBtn();
             FreezeClickonSquares();
+            MainDiv.childNodes.forEach((squares)=>
+           {
+            squares.classList.remove("hover");
+           }); 
+            
         }
     else{
         ScoreNum++;
