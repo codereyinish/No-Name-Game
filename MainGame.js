@@ -3,6 +3,9 @@ const AskButton = document.querySelector("#AskBtn");
 const body = document.querySelector("body");
 const score = document.querySelector("#score");
 const remaining = document.querySelector("#remaining");
+const SafeAudio = document.querySelector("#music1");
+// const container = document.querySelector("#container");
+// console.log(container);
 let ScoreNum = 0;
 score.textContent = ScoreNum;
 let n = 64;
@@ -12,6 +15,8 @@ var UnClickedNumsArray = [];
 let SureCollisionNumsArray = [24, 26, 28, 42 ,46, 48, 62, 64, 68, 82,84,86];
 let RemainingUnclicks = n - (SureCollisionNumsArray.length);// we cant use UnclickedNums here until squares are created
 remaining.textContent = RemainingUnclicks;
+const SuccessAudio = new Audio("./Music/GameSuccess.wav");
+const FailAudio = new Audio("./Music/GameEnd.wav");
 InitalGAMESetup();
 
 function InitalGAMESetup()
@@ -83,6 +88,7 @@ function ClickEventforMainDiv(event)
     {
                 if(UnClickedArray.includes(selectedDiv))
                 {
+                    SafeAudio.play();
                     event.target.className = "ClickedChildDiv";
                     let text = selectedDiv.textContent;
                     let ReversedText = reveseString(text);
@@ -94,10 +100,14 @@ function ClickEventforMainDiv(event)
                     CheckForMatch(ReversedText,selectedDiv);
                     if(RemainingUnclicks===0)
                     {
-                        alert("Level Completed");
+                        SuccessAudio.play();
                         UncoverSureCollisionNums();
                         AddPlayAgainBtn();
                         FreezeClickonSquares();
+                        setTimeout(function()
+                        {
+                            alert("Level Completed");
+                        },1200)
                     }
                 }
             }
@@ -134,14 +144,18 @@ function CheckForMatch(ReversedText,selectedDiv)
     let foundIndex = (UnClickedNumsArray.findIndex((num)=> num===ReversedNum));
     if(foundIndex!==-1)
         {
-            alert("Game finished");
+            FailAudio.play();
             AddBgColorToMatchedDivs(selectedDiv, foundIndex);
+            MainDiv.childNodes.forEach((squares)=>
+            {
+                squares.classList.remove("hover");
+            }); 
             AddPlayAgainBtn();
             FreezeClickonSquares();
-            MainDiv.childNodes.forEach((squares)=>
-           {
-            squares.classList.remove("hover");
-           }); 
+            setTimeout(function()
+            {
+                alert("Game Lost");
+            },1200)//this timeout function pauses the JS execution in main thread and in meantime, rendering happens.
             
         }
     else{
@@ -153,7 +167,6 @@ function CheckForMatch(ReversedText,selectedDiv)
     }  
  
 }
-
 
 function UncoverSureCollisionNums()
 {
