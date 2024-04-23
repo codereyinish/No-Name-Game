@@ -7,16 +7,23 @@
     <link rel="stylesheet" href="main.css">
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="MainGame.js" defer></script>
+    <link rel="stylesheet" href="./switch-master/css/style.css">
+
 </head>
 <body > <!-- Hide the game content initially-->
+    <div id="wrapper">
+        <!-- <div id="toggleVolume">Fetch it from SwitchMaster</div> -->
         <div id="ScoreBoard">
             <span>Score:</span>
             <div id="score"></div>
         </div>
+    </div>
         <div id="mainDiv"></div>
-        <div id="Remaining">
-            <span>Remaining Tiles:</span>
-            <div id="remaining">2</div>
+            <div id="Remaining">
+                <span>Remaining Tiles:</span>
+                <div id="remaining">2</div>
         </div>
+         <audio id="music1" src="./Music/SafeMove.wav"  controls style="display:none"></audio> 
+
 </body>
 </html>
