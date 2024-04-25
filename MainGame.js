@@ -3,9 +3,6 @@ const AskButton = document.querySelector("#AskBtn");
 const body = document.querySelector("body");
 const score = document.querySelector("#score");
 const remaining = document.querySelector("#remaining");
-const SafeAudio = document.querySelector("#music1");
-// const container = document.querySelector("#container");
-// console.log(container);
 let ScoreNum = 0;
 score.textContent = ScoreNum;
 let n = 64;
@@ -15,8 +12,11 @@ var UnClickedNumsArray = [];
 let SureCollisionNumsArray = [24, 26, 28, 42 ,46, 48, 62, 64, 68, 82,84,86];
 let RemainingUnclicks = n - (SureCollisionNumsArray.length);// we cant use UnclickedNums here until squares are created
 remaining.textContent = RemainingUnclicks;
+const SafeAudio = document.querySelector("#music1");
 const SuccessAudio = new Audio("./Music/GameSuccess.wav");
 const FailAudio = new Audio("./Music/GameEnd.wav");
+let audioObjects = [];
+audioObjects.push(SafeAudio, SuccessAudio, FailAudio);
 InitalGAMESetup();
 
 function InitalGAMESetup()
@@ -163,7 +163,6 @@ function CheckForMatch(ReversedText,selectedDiv)
         score.textContent = ScoreNum;
         RemainingUnclicks--;
         remaining.textContent = RemainingUnclicks;
-
     }  
  
 }
@@ -203,3 +202,29 @@ function RemovePlayAgainBtn()
 }
 
 
+const toggleVolume = document.querySelector("#toggleVolume");
+/*`defer` ensures scripts run after the DOM is parsed, but it doesn't guarantee asynchronous content is loaded. Use promises or callbacks to ensure your code runs after dynamic content has been injected. This synchronization is key when working with asynchronously loaded DOM elements.
+*/
+
+document.addEventListener("ComponentLoaded", (e)=>
+{
+    if(e.detail = "switch-master/index")
+    {
+    const LABEL = document.querySelector("#toggleVolume label"); 
+    console.log(LABEL);
+     LABEL.addEventListener("click", function Switch(e2)
+     {
+        e2.stopPropagation(); 
+        muteALL()
+    })
+    }
+})
+let isAudioMuted = false; // Track the mute state
+function muteALL() {
+    audioObjects.forEach((elem) => {
+        elem.muted = !isAudioMuted; // Toggle the mute state of each audio element
+    });
+    isAudioMuted = !isAudioMuted; // Toggle the overall mute state
+    return isAudioMuted; // Return the current mute state
+}
+                                                        
