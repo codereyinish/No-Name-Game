@@ -8,11 +8,12 @@
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="MainGame.js" defer></script>
     <link rel="stylesheet" href="./switch-master/css/style.css">
+    <style id="toggleVolumeCSS"></style>
 
 </head>
 <body > <!-- Hide the game content initially-->
     <div id="wrapper">
-        <!-- <div id="toggleVolume">Fetch it from SwitchMaster</div> -->
+        <div id="toggleVolume"></div>
         <div id="ScoreBoard">
             <span>Score:</span>
             <div id="score"></div>
@@ -24,6 +25,32 @@
                 <div id="remaining">2</div>
         </div>
          <audio id="music1" src="./Music/SafeMove.wav"  controls style="display:none"></audio> 
+    <script>
+        async function importComponent(componentPath)
+        {
+            try{
+                const responseHTML = await fetch(`${componentPath}.html`);
+                const html = await responseHTML.text();
+                // fetch CSS content
+                const responseCSS = await fetch(`${componentPath}.css`) 
+                const css = await responseCSS.text();
+                
+                // Inject the CSS into <style> tag
+                    document.getElementById("toggleVolumeCSS").textContent = css;
+                // and we inject HTML in our #toggleVolume,
+                    document.getElementById("toggleVolume").innerHTML= html;
+                    // Create and dispatch event to let  fucntion in JS know #toggleVolume's content is fully loaded.
+                    const event = new CustomEvent("ComponentLoaded", {detail:"switch-master/index"})
+                    document.dispatchEvent(event);
+                }
+                catch(error){
+                        console.log('Error importing the component:', error);
+                        }
+        }
 
+        // calling async fucntion 
+       importComponent("switch-master/index");
+        
+    </script>
 </body>
 </html>
